@@ -25,13 +25,14 @@ public class Excersice {
 
             int option = -1;
 
-            while (option < 1 || option > 4) {
+            while (option < 1 || option > 5) {
                 System.out.println("\nWelcome to PCHE Bank!");
                 System.out.println("Please select an option: ");
                 System.out.println("1. Add a new customer");
                 System.out.println("2. Display all customers");
-                System.out.println("3. Delete a customer");
-                System.out.println("4. Exit\n");
+                System.out.println("3. Update customer details");
+                System.out.println("4. Delete a customer");
+                System.out.println("5. Exit\n");
 
                 System.out.print("Selected option : ");
 
@@ -43,7 +44,7 @@ public class Excersice {
                     throw new RuntimeException(e.getMessage());
                 }
 
-                if (option < 1 || option > 4) {
+                if (option < 1 || option > 5) {
                     System.out.println("Invalid option. Select an option between 1 and 4");
                 }
             }
@@ -111,8 +112,61 @@ public class Excersice {
                     }
                     break;
                 case 3:
-                    System.out.println("Delete a customer\n");
+                    System.out.println("Update Customer Details\n\n");
                     String customerSN;
+                    do {
+                        valid = false;
+                        System.out.print("Enter customer SN to be deleted: ");
+                        customerSN = scanner.next().trim();
+
+                        if(customerSN.isEmpty() || !customerSN.matches("^[0-9]+$")){
+                            System.out.print("Invalid input. Please enter a positive number only.\n\n");
+                        } else if (Integer.parseInt(customerSN) > customerDetails.length) {
+                            System.out.print("Invalid input. Please enter a number in valid range.\n\n");
+                        } else {
+                            valid = true;
+                        }
+                    }while (!valid);
+                    //Allow user to input new customer details
+                    do {
+                        valid = false;
+                        System.out.print("Enter customer new name: ");
+                        customerName = scanner.next().trim();
+
+                        if(customerName.isEmpty() || !customerName.matches("^[a-zA-Z ]{2,}$")){
+                            System.out.print("Invalid input. Please use alphabetical characters only.\n\n");
+                        } else {
+                            valid = true;
+                        }
+                    }while (!valid);
+
+                    do {
+                        valid = false;
+                        System.out.print("Enter customer new city: ");
+                        customerCity = scanner.next().trim();
+
+                        if(customerCity.isEmpty() || !customerCity.matches("^[a-zA-Z ]+$")){
+                            System.out.print("Invalid input. Please use alphabetical characters, numbers and \"-\" only.\n\n");
+                        } else {
+                            valid = true;
+                        }
+                    }while (!valid);
+
+                    System.out.print("Enter customer new phone number: ");
+                    customerPhoneNumber = scanner.next();
+                    System.out.print("Enter customer new account number: ");
+                    customerAccountNumber = scanner.next();
+
+                    //Add new details to the relavant SN/ index
+                    int editIndex = Integer.parseInt(customerSN)-1;
+                    customerDetails[editIndex][0] = customerName;
+                    customerDetails[editIndex][1] = customerCity;
+                    customerDetails[editIndex][2] = customerPhoneNumber;
+                    customerDetails[editIndex][3] = customerAccountNumber;
+
+                    break;
+                case 4:
+                    System.out.println("Delete a customer\n");
                     do {
                         valid = false;
                         System.out.print("Enter customer SN to be deleted: ");
@@ -140,7 +194,7 @@ public class Excersice {
                     customerDetails = temp;
                     System.out.println("\nCustomer details deleted successfully\n");
                     break;
-                case 4:
+                case 5:
                     System.out.println("Exiting from application\n");
                     appRun = false;
                     break;
